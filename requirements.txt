@@ -1,0 +1,12 @@
+streamlit
+langchain
+langchain-google-genai
+langchain-huggingface
+langchain-community
+chromadb
+pypdf
+sentence-transformers
+pillow
+torch
+torchvision
+pysqlite3-binary

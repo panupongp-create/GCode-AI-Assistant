@@ -1,0 +1,30 @@
+# Streamlit / Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Streamlit secrets (VERY IMPORTANT)
+.streamlit/secrets.toml
+
+# Large Files / Assets
+ollama.zip
+*.exe
+*.pkg
+*.dll
+*.so
+*.dylib
+build/
+dist/
+*.spec
+
+# Database (optional - if you want to rebuild on server)
+# chroma_db_expert/
+
+# OS files
+.DS_Store
+Thumbs.db
