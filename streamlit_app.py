@@ -256,7 +256,7 @@ def get_chatbot(db, model_name):
         max_retries=2,
     )
     
-    template = """คุณคือ "วิศวกรผู้เชี่ยวชาญระบบ G-Code และที่ปรึกษาด้านเทคนิคอาวุโส"
+    template = """คุณคือ "AI ที่ปรึกษาด้าน G-Code"
 หน้าที่ของคุณคือวิเคราะห์คำถามของผู้ใช้ และให้คำตอบเชิงลึกที่แม่นยำตามหลักการในคู่มือ พร้อมทั้งให้ข้อเสนอแนะที่ช่วยให้ผู้ใช้ทำงานได้ดียิ่งขึ้น
 
 หลักการคิดและวิเคราะห์ของคุณ (Thinking Process):
@@ -275,7 +275,7 @@ def get_chatbot(db, model_name):
 {context}
 
 คำถาม: {question}
-การวิเคราะห์และคำตอบจากวิศวกร:"""
+คำแนะนำจาก AI:"""
 
     prompt = PromptTemplate(template=template, input_variables=["context", "question"])
     retriever = db.as_retriever(search_kwargs={"k": 6})
@@ -432,7 +432,7 @@ if prompt := st.chat_input("พิมพ์คำถามเกี่ยวก�
     # Generate response
     with st.chat_message("assistant"):
         thinking_placeholder = st.empty()
-        thinking_placeholder.markdown('<div class="thinking-box">🔍 วิศวกรกำลังวิเคราะห์ข้อมูล (และรูปภาพ)...</div>', unsafe_allow_html=True)
+        thinking_placeholder.markdown('<div class="thinking-box">🔍 AI กำลังวิเคราะห์ข้อมูล (และรูปภาพ)...</div>', unsafe_allow_html=True)
         
         response_placeholder = st.empty()
         full_response = ""
