@@ -1,6 +1,6 @@
 streamlit
 langchain
-langchain-google-genai
+langchain-groq
 langchain-huggingface
 langchain-community
 chromadb
@@ -10,5 +10,3 @@ pillow
 torch
 torchvision
 pysqlite3-binary
-protobuf==3.20.3
-google-generativeai

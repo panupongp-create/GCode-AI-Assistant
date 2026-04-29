@@ -16,7 +16,7 @@ import base64
 import uuid
 from datetime import datetime
 from PIL import Image
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -234,31 +234,22 @@ def format_docs_with_pages(docs):
     return formatted
 
 def get_available_models():
-    try:
-        import google.generativeai as genai
-        # ต้องแนบ API Key ให้ genai ด้วย ไม่งั้นมันดึงชื่อรุ่นไม่ได้
-        if "GOOGLE_API_KEY" in st.secrets:
-            genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-            
-        models = []
-        for m in genai.list_models():
-            if 'generateContent' in m.supported_generation_methods:
-                models.append(m.name.replace('models/', ''))
-        
-        if not models:
-            return ["gemini-1.5-flash-latest", "gemini-1.5-pro", "gemini-2.5-flash"]
-        return sorted(models, reverse=True) 
-    except Exception as e:
-        # ชื่อสำรองที่รับประกันว่าถูกต้องแน่นอน (ใช้ -latest ตามที่ API แนะนำ)
-        return ["gemini-1.5-flash-latest", "gemini-1.5-pro-latest"]
+    """Groq รองรับโมเดลเหล่านี้ (ฟรีทั้งหมด)"""
+    return [
+        "llama-3.3-70b-versatile",
+        "llama-3.1-8b-instant",  
+        "gemma2-9b-it",
+        "mixtral-8x7b-32768",
+    ]
 
 def get_chatbot(db, model_name):
-    llm = ChatGoogleGenerativeAI(
-        model=model_name if model_name else "gemini-1.5-flash-latest",
+    llm = ChatGroq(
+        model=model_name if model_name else "llama-3.3-70b-versatile",
         temperature=0.4,
         max_tokens=None,
         timeout=30,
-        max_retries=6,
+        max_retries=3,
+        api_key=st.secrets.get("GROQ_API_KEY", ""),
     )
     
     template = """คุณคือ "AI ที่ปรึกษาด้าน G-Code"
@@ -302,15 +293,13 @@ with st.sidebar:
     
     # Model Selection UI
     available_models = get_available_models()
-    default_index = 0
-    if "gemini-1.5-flash" in available_models:
-        default_index = available_models.index("gemini-1.5-flash")
+    default_index = 0  # llama-3.3-70b-versatile อยู่บนสุดอยู่แล้ว
     
     selected_model = st.selectbox(
         "🤖 เลือกโมเดล AI:",
         options=available_models,
         index=default_index,
-        help="หากรันไม่ได้ ให้ลองเปลี่ยนเป็นรุ่นอื่นในรายการนี้"
+        help="แนะนำ: llama-3.3-70b ฉลาดที่สุด, llama-3.1-8b เร็วที่สุด"
     )
     
     st.divider()
