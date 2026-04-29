@@ -10,3 +10,4 @@ pillow
 torch
 torchvision
 pysqlite3-binary
+protobuf==3.20.3

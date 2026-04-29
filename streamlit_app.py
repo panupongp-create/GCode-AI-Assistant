@@ -1,7 +1,9 @@
 import streamlit as st
 import os
 
-# --- Fix for ChromaDB on Streamlit Cloud (SQLite version issue) ---
+# --- Fix for Protobuf Conflict & ChromaDB ---
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 try:
     __import__('pysqlite3')
     import sys
