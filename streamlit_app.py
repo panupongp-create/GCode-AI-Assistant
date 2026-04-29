@@ -244,12 +244,10 @@ def get_available_models():
         if not models:
             return ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-2.5-flash"]
         
-        # จัดเรียงโดยเอา 1.5-flash ขึ้นก่อนเพื่อน
         priority_model = "gemini-1.5-flash"
-        if priority_model in models:
-            models.remove(priority_model)
-            return [priority_model] + sorted(models, reverse=True)
-        return sorted(models, reverse=True)
+        # กรองเอาพวก 2.0 หรือ 2.5 ออกไปไว้ท้ายๆ หรือลบออกถ้าไม่จำเป็น
+        other_models = [m for m in models if m != priority_model]
+        return [priority_model] + sorted(other_models, reverse=True)
     except Exception as e:
         return ["gemini-2.5-flash", "gemini-2.0-flash"]
 
