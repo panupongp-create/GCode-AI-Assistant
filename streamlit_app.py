@@ -249,7 +249,7 @@ def get_available_models():
         other_models = [m for m in models if m != priority_model]
         return [priority_model] + sorted(other_models, reverse=True)
     except Exception as e:
-        return ["gemini-2.5-flash", "gemini-2.0-flash"]
+        return ["gemini-1.5-flash", "gemini-2.5-flash", "gemini-2.0-flash"]
 
 def get_chatbot(db, model_name):
     llm = ChatGoogleGenerativeAI(
