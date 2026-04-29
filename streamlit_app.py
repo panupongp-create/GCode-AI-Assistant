@@ -240,16 +240,12 @@ def get_available_models():
         for m in genai.list_models():
             if 'generateContent' in m.supported_generation_methods:
                 models.append(m.name.replace('models/', ''))
-        # ลำดับความสำคัญ: 1.5-flash คือตัวเลือกที่ดีที่สุดสำหรับ RAG และโควตาฟรี
+        # ไม่ฟิกซ์ชื่อตายตัวแล้ว ให้ใช้รายชื่อที่ดึงได้จาก API ของคุณโดยตรง
         if not models:
-            return ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-2.5-flash"]
-        
-        priority_model = "gemini-1.5-flash"
-        # กรองเอาพวก 2.0 หรือ 2.5 ออกไปไว้ท้ายๆ หรือลบออกถ้าไม่จำเป็น
-        other_models = [m for m in models if m != priority_model]
-        return [priority_model] + sorted(other_models, reverse=True)
+            return ["gemini-pro"] # fallback พื้นฐานที่สุดถ้าดึงไม่ได้
+        return sorted(models, reverse=True) # เอาชื่อรุ่นใหม่ๆ (ตัวเลขเยอะ) ไว้บนสุด
     except Exception as e:
-        return ["gemini-1.5-flash", "gemini-2.5-flash", "gemini-2.0-flash"]
+        return ["gemini-pro"]
 
 def get_chatbot(db, model_name):
     llm = ChatGoogleGenerativeAI(
