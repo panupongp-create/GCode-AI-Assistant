@@ -249,16 +249,16 @@ def get_available_models():
             return ["gemini-1.5-flash-latest", "gemini-1.5-pro", "gemini-2.5-flash"]
         return sorted(models, reverse=True) 
     except Exception as e:
-        # ชื่อสำรองที่รับประกันว่าถูกต้องแน่นอน
-        return ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro"]
+        # ชื่อสำรองที่รับประกันว่าถูกต้องแน่นอน (ใช้ -latest ตามที่ API แนะนำ)
+        return ["gemini-1.5-flash-latest", "gemini-1.5-pro-latest"]
 
 def get_chatbot(db, model_name):
     llm = ChatGoogleGenerativeAI(
-        model=model_name if model_name else "gemini-2.5-flash",
+        model=model_name if model_name else "gemini-1.5-flash-latest",
         temperature=0.4,
         max_tokens=None,
-        timeout=None,
-        max_retries=2,
+        timeout=30,
+        max_retries=6,
     )
     
     template = """คุณคือ "AI ที่ปรึกษาด้าน G-Code"
