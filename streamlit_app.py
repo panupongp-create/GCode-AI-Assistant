@@ -30,16 +30,16 @@ st.set_page_config(
 )
 
 # API Key initialization
-if "GOOGLE_API_KEY" in st.secrets:
-    GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+if "GROQ_API_KEY" in st.secrets:
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 else:
-    GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+    GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 
-if not GOOGLE_API_KEY:
+if not GROQ_API_KEY:
     st.error("❌ ไม่พบ API Key! กรุณาตรวจสอบไฟล์ `.streamlit/secrets.toml` หรือตั้งค่า Environment Variable")
     st.stop()
 
-os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
+os.environ["GROQ_API_KEY"] = GROQ_API_KEY
 
 DB_DIR = "./chroma_db_expert"
 
