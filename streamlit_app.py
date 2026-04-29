@@ -240,10 +240,16 @@ def get_available_models():
         for m in genai.list_models():
             if 'generateContent' in m.supported_generation_methods:
                 models.append(m.name.replace('models/', ''))
-        # สำหรับปี 2026 รุ่นมาตรฐานคือ 2.5
+        # ลำดับความสำคัญ: 1.5-flash คือตัวเลือกที่ดีที่สุดสำหรับ RAG และโควตาฟรี
         if not models:
-            return ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
-        return sorted(models, reverse=True) # เอาตัวเลขสูงๆ ขึ้นก่อน
+            return ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-2.5-flash"]
+        
+        # จัดเรียงโดยเอา 1.5-flash ขึ้นก่อนเพื่อน
+        priority_model = "gemini-1.5-flash"
+        if priority_model in models:
+            models.remove(priority_model)
+            return [priority_model] + sorted(models, reverse=True)
+        return sorted(models, reverse=True)
     except Exception as e:
         return ["gemini-2.5-flash", "gemini-2.0-flash"]
 
@@ -298,8 +304,8 @@ with st.sidebar:
     # Model Selection UI
     available_models = get_available_models()
     default_index = 0
-    if "gemini-2.5-flash" in available_models:
-        default_index = available_models.index("gemini-2.5-flash")
+    if "gemini-1.5-flash" in available_models:
+        default_index = available_models.index("gemini-1.5-flash")
     
     selected_model = st.selectbox(
         "🤖 เลือกโมเดล AI:",
