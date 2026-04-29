@@ -236,16 +236,21 @@ def format_docs_with_pages(docs):
 def get_available_models():
     try:
         import google.generativeai as genai
+        # ต้องแนบ API Key ให้ genai ด้วย ไม่งั้นมันดึงชื่อรุ่นไม่ได้
+        if "GOOGLE_API_KEY" in st.secrets:
+            genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+            
         models = []
         for m in genai.list_models():
             if 'generateContent' in m.supported_generation_methods:
                 models.append(m.name.replace('models/', ''))
-        # ไม่ฟิกซ์ชื่อตายตัวแล้ว ให้ใช้รายชื่อที่ดึงได้จาก API ของคุณโดยตรง
+        
         if not models:
-            return ["gemini-pro"] # fallback พื้นฐานที่สุดถ้าดึงไม่ได้
-        return sorted(models, reverse=True) # เอาชื่อรุ่นใหม่ๆ (ตัวเลขเยอะ) ไว้บนสุด
+            return ["gemini-1.5-flash-latest", "gemini-1.5-pro", "gemini-2.5-flash"]
+        return sorted(models, reverse=True) 
     except Exception as e:
-        return ["gemini-pro"]
+        # ชื่อสำรองที่รับประกันว่าถูกต้องแน่นอน
+        return ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro"]
 
 def get_chatbot(db, model_name):
     llm = ChatGoogleGenerativeAI(
