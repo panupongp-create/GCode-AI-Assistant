@@ -1,5 +1,12 @@
 import fitz  # PyMuPDF
-import os
+import os, sys
+if sys.stdout.encoding != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except AttributeError:
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 
 def extract_pdf_pages_as_images(pdf_path, output_folder="page_images"):
     if not os.path.exists(output_folder):
@@ -19,7 +26,7 @@ def extract_pdf_pages_as_images(pdf_path, output_folder="page_images"):
     doc.close()
 
 if __name__ == "__main__":
-    pdf_path = "manual_GCodeV4 (1).pdf"
+    pdf_path = "V9 คู่มือ Gcode  Version_9 28042569.pdf"
     if os.path.exists(pdf_path):
         extract_pdf_pages_as_images(pdf_path)
     else:

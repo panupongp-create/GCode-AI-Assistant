@@ -13,6 +13,13 @@
 """
 
 import os, sys, shutil, time
+if sys.stdout.encoding != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except AttributeError:
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 
 # ใช้ API Key ที่คุณให้มา
 os.environ["GOOGLE_API_KEY"] = "AIzaSyAZCwz_75h5-fCFLOwhx2Z7M59PIDrLNLg"
@@ -29,7 +36,7 @@ def main():
         return
 
     # --- Step 1: Load PDF ---
-    pdf_path = "manual_GCodeV4 (1).pdf"
+    pdf_path = "V9 คู่มือ Gcode  Version_9 28042569.pdf"
     if not os.path.exists(pdf_path):
         pdf_files = [f for f in os.listdir('.') if f.endswith('.pdf')]
         if pdf_files:

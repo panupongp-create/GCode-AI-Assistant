@@ -329,7 +329,7 @@ class ChatPage(ctk.CTkFrame):
             try: db = load_vector_db()
             except FileNotFoundError:
                 from load_data import load_and_split; from vector_db import create_vector_db
-                docs = load_and_split(resource_path("manual_GCodeV4 (1).pdf")); db = create_vector_db(docs)
+                docs = load_and_split(resource_path("V9 คู่มือ Gcode  Version_9 28042569.pdf")); db = create_vector_db(docs)
             from chatbot import create_chatbot, prewarm_model
             self.chatbot = create_chatbot(db); prewarm_model(self.chatbot)
             self.system_ready = True; self._set_status("พร้อมใช้งาน", C_GREEN)

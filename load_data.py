@@ -2,7 +2,7 @@ import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-def load_and_split(path="manual_GCodeV4 (1).pdf"):
+def load_and_split(path="V9 คู่มือ Gcode  Version_9 28042569.pdf"):
     if not os.path.exists(path):
         pdf_files = [f for f in os.listdir('.') if f.endswith('.pdf')]
         if pdf_files:

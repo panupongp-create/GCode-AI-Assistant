@@ -19,7 +19,7 @@ def build_single():
         "--windowed",
         "--noconfirm",
         "--clean",
-        "--add-data=manual_GCodeV4 (1).pdf;.",
+        "--add-data=V9 คู่มือ Gcode  Version_9 28042569.pdf;.",
         "--add-data=page_images;page_images",
         "--hidden-import=langchain",
         "--hidden-import=langchain_community",

@@ -4,7 +4,7 @@ from load_data import load_and_split
 from vector_db import create_vector_db
 from chatbot import create_chatbot
 
-print("กำลังเตรียมข้อมูลเอกสาร (manual_GCodeV4 (1).pdf)...")
+print("กำลังเตรียมข้อมูลเอกสาร (V9 คู่มือ Gcode  Version_9 28042569.pdf)...")
 # โหลดเอกสาร
 docs = load_and_split()
 

@@ -6,7 +6,7 @@ from vector_db import create_vector_db
 from chatbot import create_chatbot, ask_question
 
 print('Loading...')
-docs = load_and_split('manual_GCodeV4 (1).pdf')
+docs = load_and_split('V9 คู่มือ Gcode  Version_9 28042569.pdf')
 db = create_vector_db(docs)
 chatbot = create_chatbot(db)
 
