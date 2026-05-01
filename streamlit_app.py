@@ -164,7 +164,7 @@ if logo_b64:
         f"""
         <div class="top-right-logo">
             <img src="data:image/png;base64,{logo_b64}">
-            <div>ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร<br>สป. ศธ.</div>
+            <div>ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร<br>สำนักงานปลัดกระทรวงศึกษาธิการ</div>
         </div>
         """,
         unsafe_allow_html=True
