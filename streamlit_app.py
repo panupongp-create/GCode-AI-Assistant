@@ -131,7 +131,7 @@ st.markdown("""
     /* Logo styling */
     .top-right-logo {
         position: fixed;
-        top: 20px;
+        top: 50px;
         right: 40px;
         text-align: center;
         z-index: 1000;
@@ -391,39 +391,21 @@ for message in current_messages:
                         st.image(img_path, caption=f"คู่มือหน้า {p}")
 
 # --- Chat Interaction Area ---
-# UI for Attachments (Floating over the chat input, on the right)
-st.markdown('<div class="floating-attach">', unsafe_allow_html=True)
-with st.popover("📎 แนบรูปภาพ"):
-    uploaded_image = st.file_uploader("เลือกรูปภาพ", type=["png", "jpg", "jpeg"], label_visibility="collapsed")
-    if uploaded_image:
-        st.image(uploaded_image, caption="รูปที่เลือก")
-st.markdown('</div>', unsafe_allow_html=True)
-
 # Chat Input
 if prompt := st.chat_input("พิมพ์คำถามเกี่ยวกับ G-Code ที่นี่..."):
+
     conv_id = st.session_state.current_conv_id
     conv = st.session_state.conversations[conv_id]
     
-    # Store image data if any
-    current_image_bytes = None
-    if uploaded_image:
-        current_image_bytes = uploaded_image.getvalue()
-
-    # Auto-title from first message
-    if not conv["messages"]:
-        update_conversation_title(conv_id, prompt)
-
     # Add user message
     conv["messages"].append({
         "role": "user", 
-        "content": prompt,
-        "image": current_image_bytes
+        "content": prompt
     })
     
     with st.chat_message("user"):
         st.markdown(prompt)
-        if current_image_bytes:
-            st.image(current_image_bytes, caption="รูปภาพแนบ")
+
 
     # Generate response
     with st.chat_message("assistant"):
@@ -447,26 +429,15 @@ if prompt := st.chat_input("พิมพ์คำถามเกี่ยวก�
                 seen_pages.add(p)
         final_pages = unique_pages[:3]
 
-        # Prepare Multimodal Message
+        # Prepare Message
         from langchain_core.messages import HumanMessage
-        
         formatted_prompt_text = chatbot["prompt"].format(context=context, question=prompt)
         
-        content_list = [{"type": "text", "text": formatted_prompt_text}]
-        
-        if current_image_bytes:
-            # Convert to base64
-            img_b64 = base64.b64encode(current_image_bytes).decode("utf-8")
-            content_list.append({
-                "type": "image_url",
-                "image_url": {"url": f"data:image/jpeg;base64,{img_b64}"}
-            })
-            
         try:
-            # Using ChatGoogleGenerativeAI with list of contents
-            for chunk in chatbot["llm"].stream([HumanMessage(content=content_list)]):
+            for chunk in chatbot["llm"].stream([HumanMessage(content=formatted_prompt_text)]):
                 full_response += chunk.content
                 response_placeholder.markdown(full_response + "▌")
+
             
             response_placeholder.markdown(full_response)
             thinking_placeholder.empty()
